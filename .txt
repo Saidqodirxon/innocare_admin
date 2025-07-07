@@ -1,0 +1,57 @@
+category
+-name_uz
+-name_ru
+-name_en
+
+product
+-name_uz
+-name_ru
+-name_en
+-desc_uz
+-desc_ru
+-desc_en
+category_id
+-image (max 3)
+-file
+-video_link
+
+about
+-name_uz
+-name_ru
+-name_en
+-desc_uz
+-desc_ru
+-desc_en
+-video_link
+
+adventages
+-name_uz
+-name_ru
+-name_en
+-desc_uz
+-desc_ru
+-desc_en
+-link
+
+certificates
+-image (max 1)
+
+partners
+-name_uz
+-name_ru
+-name_en
+-desc_uz
+-desc_ru
+-desc_en
+-image (max 1)
+
+news
+-name_uz
+-name_ru
+-name_en
+-desc_uz
+-desc_ru
+-desc_en
+-image (max 1)
+
+
