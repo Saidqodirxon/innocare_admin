@@ -30,6 +30,7 @@ import {
   Newspaper,
   NewspaperIcon,
   PackagePlus,
+  Paperclip,
 } from "lucide-react";
 import { getMe, type AdminData } from "@/src/lib/api/auth";
 import { Toaster } from "@/src/components/ui/toaster";
@@ -175,6 +176,18 @@ export default function DashboardLayout({
                   <a href="/dashboard/news">
                     <Newspaper className="mr-2" />
                     <span>Новости</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname.includes("/dashboard/banners")}
+                >
+                  <a href="/dashboard/banners">
+                    <Paperclip className="mr-2" />
+                    <span>Баннеры</span>
                   </a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
