@@ -10,7 +10,7 @@ import { Label } from "@/src/components/ui/label";
 import { Textarea } from "@/src/components/ui/textarea";
 import { Card, CardContent } from "@/src/components/ui/card";
 import { ArrowLeft } from "lucide-react";
-import { createAbout, type AboutData } from "@/src/lib/api/about";
+import { createAbout, type AboutData } from "@/src/lib/api/adventages";
 import { useToast } from "@/src/hooks/use-toast";
 
 export default function CreateAboutPage() {

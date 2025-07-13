@@ -10,7 +10,7 @@ import { Label } from "@/src/components/ui/label";
 import { Textarea } from "@/src/components/ui/textarea";
 import { Card, CardContent } from "@/src/components/ui/card";
 import { ArrowLeft } from "lucide-react";
-import { type AboutData, getAbout, updateAbout } from "@/src/lib/api/about";
+import { type AboutData, getAbout, updateAbout } from "@/src/lib/api/adventages";
 
 import { useToast } from "@/src/hooks/use-toast";
 

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/src/components/ui/button";
 import { Plus, Pencil, Trash2, ExternalLink } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { getAbout, deleteAbout, type AboutData } from "@/src/lib/api/about";
+import { getAbout, deleteAbout, type AboutData } from "@/src/lib/api/adventages";
 import { useToast } from "@/src/hooks/use-toast";
 import {
   Table,
