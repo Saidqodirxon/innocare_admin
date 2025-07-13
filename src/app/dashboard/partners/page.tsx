@@ -88,7 +88,7 @@ export default function BannersPage() {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-semibold">Список Партнеры</h2>
-        <Button onClick={() => router.push("/dashboard/partnersreate")}>
+        <Button onClick={() => router.push("/dashboard/partners/create")}>
           <Plus className="mr-2 h-4 w-4" /> Добавить Партнеры
         </Button>
       </div>
