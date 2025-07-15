@@ -49,7 +49,10 @@ export default function EditServicePage({
       url: "",
       id: "",
     },
-    link: "",
+    link_1: "",
+    link_2: "",
+    link_3: "",
+    is_visible: false,
   });
   useEffect(() => {
     const fetchCategories = async () => {
@@ -222,45 +225,92 @@ export default function EditServicePage({
                 />
               </div>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="categoryId">Категория</Label>
-              <Select
-                value={formData.categoryId}
-                onValueChange={(value) =>
-                  setFormData((prev) => ({ ...prev, categoryId: value }))
-                }
-              >
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Выберите категорию" />
-                </SelectTrigger>
-                <SelectContent>
-                  {categories.map((category) => (
-                    <SelectItem key={category._id} value={category._id!}>
-                      {category.name_uz}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="space-y-2">
+                <Label htmlFor="link_1">Ссылка на видео 1</Label>
+                <Input
+                  id="link_1"
+                  name="link_1"
+                  type="text"
+                  value={formData.link_1}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="link_2">Ссылка на видео 2</Label>
+                <Input
+                  id="link_2"
+                  name="link_2"
+                  type="text"
+                  value={formData.link_2}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="link_3">Ссылка на видео 3</Label>
+                <Input
+                  id="link_3"
+                  name="link_3"
+                  type="text"
+                  value={formData.link_3}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="link">Ссылка на видео</Label>
-              <Input
-                id="link"
-                name="link"
-                type="text"
-                value={formData.link}
-                onChange={handleChange}
-                required
-              />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="space-y-2">
+                <Label htmlFor="categoryId">Категория</Label>
+                <Select
+                  value={formData.categoryId}
+                  onValueChange={(value) => {
+                    console.log("Selected category:", value); // Debug uchun
+                    setFormData((prev) => ({ ...prev, categoryId: value }));
+                  }}
+                >
+                  <SelectTrigger className="flex items-center justify-between w-full h-10 px-3 border rounded-md bg-white text-sm">
+                    <SelectValue placeholder="Выберите категорию" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white border rounded-md shadow-md max-h-60 overflow-y-auto">
+                    {categories.map((category: any) => (
+                      <SelectItem
+                        key={category._id}
+                        value={category._id}
+                        className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                      >
+                        {category.name_ru}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                {/* <Label className="flex items-center space-x-2"> */}
+                <Input
+                  type="checkbox"
+                  checked={formData.is_visible}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      is_visible: e.target.checked,
+                    }))
+                  }
+                />
+                <span>Отображать услугу на сайте</span>
+                {/* </Label> */}
+              </div>
             </div>
             <div className="space-y-2">
               <Label>Файлы услуги</Label>
               <FileUpload
                 multiple={false}
-                value={formData.file}
+                accept=".pdf,.doc,.docx"
                 isFile={true}
+                value={formData.file}
                 onChange={(value) => {
-                  const file = !Array.isArray(value) ? value : value[0];
+                  const file = Array.isArray(value) ? value[0] : value || { url: "", id: "" };
                   setFormData((prev) => ({ ...prev, file }));
                 }}
               />
@@ -270,9 +320,11 @@ export default function EditServicePage({
               <FileUpload
                 multiple={true}
                 value={formData.image}
+                accept=".jpg,.jpeg,.png"
                 onChange={handleImageChange}
               />
             </div>
+
             <div className="flex justify-end">
               <Button type="submit" disabled={loading}>
                 {loading ? "Создание..." : "Создать услугу"}

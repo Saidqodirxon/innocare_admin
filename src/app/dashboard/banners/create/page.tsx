@@ -161,7 +161,7 @@ export default function CreateBannerPage() {
               </div>
             </div>
             <div className="space-y-2">
-              <Label>Изображение Баннера</Label>
+              <Label>Изображение</Label>
               <FileUpload
                 multiple={false}
                 value={formData.image || []}

@@ -13,6 +13,7 @@ import { ArrowLeft } from "lucide-react";
 import { type AboutData, getAbout, updateAbout } from "@/src/lib/api/adventages";
 
 import { useToast } from "@/src/hooks/use-toast";
+import { FileUpload } from "@/src/components/file-upload";
 
 export default function EditAboutPage({ params }: { params: { id: string } }) {
   const router = useRouter();
@@ -27,6 +28,7 @@ export default function EditAboutPage({ params }: { params: { id: string } }) {
     description_ru: "",
     description_en: "",
     link: "",
+    image: {} as ImageData,
   });
 
   useEffect(() => {
@@ -182,6 +184,14 @@ export default function EditAboutPage({ params }: { params: { id: string } }) {
                   value={formData.link}
                   onChange={handleChange}
                   required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Изображения </Label>
+                <FileUpload
+                  multiple={false}
+                  value={formData.image}
+                  onChange={handleImageChange}
                 />
               </div>
             </div>

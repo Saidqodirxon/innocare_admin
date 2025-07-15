@@ -9,7 +9,9 @@ export interface AboutData {
   description_ru: string;
   description_en: string;
   link: string;
-}
+  image: ImageData
+};
+
 
 export const getAbout = async (id: string): Promise<AboutData[]> => {
   try {

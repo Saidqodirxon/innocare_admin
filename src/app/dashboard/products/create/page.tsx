@@ -41,7 +41,10 @@ export default function CreateServicePage() {
       url: "",
       id: "",
     },
-    link: "",
+    link_1: "",
+    link_2: "",
+    link_3: "",
+    is_visible: false,
   });
 
   useEffect(() => {
@@ -198,16 +201,40 @@ export default function CreateServicePage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="link">Ссылка на видео</Label>
+                <Label htmlFor="link_1">Ссылка на видео 1</Label>
                 <Input
-                  id="link"
-                  name="link"
+                  id="link_1"
+                  name="link_1"
                   type="text"
-                  value={formData.link}
+                  value={formData.link_1}
                   onChange={handleChange}
                   required
                 />
               </div>
+              <div className="space-y-2">
+                <Label htmlFor="link_2">Ссылка на видео 2</Label>
+                <Input
+                  id="link_2"
+                  name="link_2"
+                  type="text"
+                  value={formData.link_2}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="link_3">Ссылка на видео 3</Label>
+                <Input
+                  id="link_3"
+                  name="link_3"
+                  type="text"
+                  value={formData.link_3}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="space-y-2">
                 <Label htmlFor="categoryId">Категория</Label>
                 <Select
@@ -232,6 +259,21 @@ export default function CreateServicePage() {
                     ))}
                   </SelectContent>
                 </Select>
+              </div>
+              <div className="space-y-2">
+                {/* <Label className="flex items-center space-x-2"> */}
+                <Input
+                  type="checkbox"
+                  checked={formData.is_visible}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      is_visible: e.target.checked,
+                    }))
+                  }
+                />
+                <span>Отображать услугу на сайте</span>
+                {/* </Label> */}
               </div>
             </div>
             <div className="space-y-2">
@@ -265,6 +307,6 @@ export default function CreateServicePage() {
           </form>
         </CardContent>
       </Card>
-    </div>
+    </div >
   );
 }

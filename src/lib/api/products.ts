@@ -19,7 +19,10 @@ export interface ServiceData {
     url: string;
     id: string;
   }
-  link: string
+  link_1: string;
+  link_2: string;
+  link_3: string;
+  is_visible: boolean;
 }
 
 export const getServices = async (
@@ -27,6 +30,7 @@ export const getServices = async (
   filters: {
     categoryId?: string;
     q?: string;
+    is_visible?: boolean;
   } = {}
 ): Promise<{
   data: ServiceData[];
@@ -39,6 +43,9 @@ export const getServices = async (
     const query = new URLSearchParams();
     if (filters.categoryId) {
       query.append("categoryId", filters.categoryId);
+    }
+    if (filters.is_visible !== undefined) {
+      query.append("is_visible", filters.is_visible.toString());
     }
     if (filters.q) {
       console.log("Query string:", filters.q);

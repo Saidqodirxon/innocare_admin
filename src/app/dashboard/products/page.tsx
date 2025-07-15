@@ -145,9 +145,11 @@ export default function ServicesPage() {
         delete newFilters[key];
       } else {
         if (key === "is_visible") {
-          newFilters[key] = value === "true" ? true : false;
+          newFilters[key] = value === "true";
+        } else if (key === "view") {
+          newFilters[key] = value as "1" | "2";
         } else {
-          newFilters[key] = value as "1" | "2" | undefined;
+          newFilters[key] = value;
         }
       }
       console.log("Updated filters:", newFilters);
@@ -203,7 +205,7 @@ export default function ServicesPage() {
                 value="all"
                 className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
               >
-                Все категории
+                Все
               </SelectItem>
               {categories.map((category) => (
                 <SelectItem
@@ -214,6 +216,36 @@ export default function ServicesPage() {
                   {category.name_uz}
                 </SelectItem>
               ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex-1 max-w-xs">
+          <Select
+            value={filters.is_visible?.toString() || "all"}
+            onValueChange={(value) => handleFilterChange("is_visible", value)}
+          >
+            <SelectTrigger className="flex items-center justify-between w-full h-10 px-3 border rounded-md bg-white text-sm">
+              <SelectValue placeholder="Видимость" />
+            </SelectTrigger>
+            <SelectContent className="bg-white border rounded-md shadow-md max-h-60 overflow-y-auto">
+              <SelectItem
+                value="all"
+                className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+              >
+                Все
+              </SelectItem>
+              <SelectItem
+                value="true"
+                className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+              >
+                Видимые
+              </SelectItem>
+              <SelectItem
+                value="false"
+                className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+              >
+                Скрытые
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -302,7 +334,4 @@ export default function ServicesPage() {
       </AlertDialog>
     </div>
   );
-}
-function setPortfolioToDelete(id: string) {
-  throw new Error("Function not implemented.");
 }

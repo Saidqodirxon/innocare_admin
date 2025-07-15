@@ -12,6 +12,7 @@ import { Card, CardContent } from "@/src/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import { createAbout, type AboutData } from "@/src/lib/api/adventages";
 import { useToast } from "@/src/hooks/use-toast";
+import { FileUpload } from "@/src/components/file-upload";
 
 export default function CreateAboutPage() {
   const router = useRouter();
@@ -25,7 +26,15 @@ export default function CreateAboutPage() {
     description_ru: "",
     description_en: "",
     link: "",
+    image: {} as ImageData,
   });
+
+
+  const handleImageChange = (value: ImageData | ImageData[] | null) => {
+    if (value && !Array.isArray(value)) {
+      setFormData((prev) => ({ ...prev, image: value }));
+    }
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -146,6 +155,14 @@ export default function CreateAboutPage() {
                   value={formData.link}
                   onChange={handleChange}
                   required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Изображения сертификат</Label>
+                <FileUpload
+                  multiple={false}
+                  value={formData.image}
+                  onChange={handleImageChange}
                 />
               </div>
             </div>
