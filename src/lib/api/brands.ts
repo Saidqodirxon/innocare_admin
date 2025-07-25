@@ -5,93 +5,93 @@ export interface ImageData {
   id: string;
 }
 
-export interface CategoriesData {
+export interface BrandsData {
   _id?: string;
   name: string;
 }
 
-export const getCategories = async (id: string): Promise<CategoriesData[]> => {
+export const getBrands = async (id: string): Promise<BrandsData[]> => {
   try {
     const response = await api.get("/brands");
-    console.log("Get Categories response:", response.data);
+    console.log("Get Brands response:", response.data);
     // Ensure we always return an array
     return Array.isArray(response.data) ? response.data : [];
   } catch (error: any) {
     console.error(
-      "Get Categories error:",
+      "Get Brands error:",
       error.response?.data || error.message
     );
     throw new Error(
-      error.response?.data?.message || "Failed to fetch Categories"
+      error.response?.data?.message || "Failed to fetch Brands  "
     );
   }
 };
 
-export const getCategory = async (id: string): Promise<CategoriesData> => {
+export const getBrand = async (id: string): Promise<BrandsData> => {
   try {
     const response = await api.get(`/brands/${id}`);
-    console.log("Get Categories response:", response.data);
+    console.log("Get Brands response:", response.data);
     return response.data;
   } catch (error: any) {
     console.error(
-      "Get Categories error:",
+      "Get Brands error:",
       error.response?.data || error.message
     );
     throw new Error(
-      error.response?.data?.message || "Failed to fetch Categories"
+      error.response?.data?.message || "Failed to fetch Brands"
     );
   }
 };
 
-export const createCategories = async (
-  data: CategoriesData
-): Promise<CategoriesData> => {
+export const createBrands = async (
+  data: BrandsData
+): Promise<BrandsData> => {
   try {
-    console.log("Creating Categories with data:", data);
+    console.log("Creating Brands with data:", data);
     const response = await api.post("/brands", data);
-    console.log("Create Categories response:", response.data);
+    console.log("Create Brands response:", response.data);
     return response.data;
   } catch (error: any) {
     console.error(
-      "Create Categories error:",
+      "Create Brands error:",
       error.response?.data || error.message
     );
     throw new Error(
-      error.response?.data?.message || "Failed to create Categories"
+      error.response?.data?.message || "Failed to create Brands"
     );
   }
 };
 
-export const updateCategories = async (
+export const updateBrands = async (
   id: string,
-  data: CategoriesData
-): Promise<CategoriesData> => {
+  data: BrandsData
+): Promise<BrandsData> => {
   try {
-    console.log("Updating Categories with data:", data);
+    console.log("Updating Brands with data:", data);
     const response = await api.patch(`/brands/${id}`, data);
-    console.log("Update Categories response:", response.data);
+    console.log("Update Brands response:", response.data);
     return response.data;
   } catch (error: any) {
     console.error(
-      "Update Categories error:",
+      "Update Brands error:",
       error.response?.data || error.message
     );
     throw new Error(
-      error.response?.data?.message || "Failed to update Categories"
+      error.response?.data?.message || "Failed to update Brands"
     );
   }
 };
 
-export const deleteCategories = async (id: string): Promise<void> => {
+export const deleteBrands = async (id: string): Promise<void> => {
   try {
     await api.delete(`/brands/${id}`);
   } catch (error: any) {
     console.error(
-      "Delete Categories error:",
+      "Delete Brands error:",
       error.response?.data || error.message
     );
     throw new Error(
-      error.response?.data?.message || "Failed to delete Categories"
+      error.response?.data?.message || "Failed to delete Brands"
     );
   }
 };

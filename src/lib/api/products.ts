@@ -14,14 +14,16 @@ export interface ServiceData {
   description_ru: string;
   description_en: string;
   categoryId: string;
+  brandId: string;
   image: ImageData[];
   file: {
     url: string;
     id: string;
   }
-  link_1: string;
-  link_2: string;
-  link_3: string;
+  video?: string;
+  link_1?: string;
+  link_2?: string;
+  link_3?: string;
   is_visible: boolean;
 }
 

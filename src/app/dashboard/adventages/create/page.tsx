@@ -25,7 +25,7 @@ export default function CreateAboutPage() {
     description_uz: "",
     description_ru: "",
     description_en: "",
-    link: "",
+    // link: "",
     image: {} as ImageData,
   });
 
@@ -154,7 +154,6 @@ export default function CreateAboutPage() {
                   name="link"
                   value={formData.link}
                   onChange={handleChange}
-                  required
                 />
               </div>
               <div className="space-y-2">

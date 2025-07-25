@@ -12,9 +12,9 @@ import { Card, CardContent } from "@/src/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import { FileUpload } from "@/src/components/file-upload";
 import {
-  getCategories,
-  updateCategories,
-  type CategoriesData,
+  getBrands,
+  updateBrands,
+  type BrandsData,
 } from "@/src/lib/api/brands";
 import type { ImageData } from "@/src/lib/api/brands";
 import { useToast } from "@/src/hooks/use-toast";
@@ -28,14 +28,14 @@ export default function EditCategoriesPage({
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
-  const [formData, setFormData] = useState<CategoriesData>({
+  const [formData, setFormData] = useState<BrandsData>({
     name: "",
   });
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const data = await getCategories(params.id);
+        const data = await getBrands(params.id);
         const category = Array.isArray(data) ? data[0] : data; // Ensure a single object is selected
         setFormData(category);
       } catch (error: any) {
@@ -71,7 +71,7 @@ export default function EditCategoriesPage({
 
     setLoading(true);
     try {
-      await updateCategories(params.id, formData);
+      await updateBrands(params.id, formData);
       toast({
         title: "Успешно",
         description: "Бренд успешно обновлён",

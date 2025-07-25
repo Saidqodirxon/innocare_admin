@@ -12,17 +12,17 @@ import { Card, CardContent } from "@/src/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import { FileUpload } from "@/src/components/file-upload";
 import {
-  createCategories,
-  type CategoriesData,
+  createBrands,
+  type BrandsData,
 } from "@/src/lib/api/brands";
 import type { ImageData } from "@/src/lib/api/brands";
 import { useToast } from "@/src/hooks/use-toast";
 
-export default function CreateCategoriesPage() {
+export default function createBrandsPage() {
   const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState<CategoriesData>({
+  const [formData, setFormData] = useState<BrandsData>({
     name: ""
   });
 
@@ -44,7 +44,7 @@ export default function CreateCategoriesPage() {
     setLoading(true);
     try {
       console.log("Отправка данных категорияа:", formData);
-      await createCategories(formData);
+      await createBrands(formData);
       toast({
         title: "Успешно",
         description: "Бренд успешно создан",

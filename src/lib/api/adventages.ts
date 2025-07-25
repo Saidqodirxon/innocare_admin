@@ -8,8 +8,8 @@ export interface AboutData {
   description_uz: string;
   description_ru: string;
   description_en: string;
-  link: string;
-  image: ImageData
+  link?: string;
+  image?: ImageData;
 };
 
 

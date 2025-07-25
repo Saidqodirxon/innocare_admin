@@ -21,12 +21,14 @@ import {
   SelectItem,
 } from "@/src/components/ui/select";
 import { getCategories, type CategoriesData } from "@/src/lib/api/categories";
+import { getBrands, BrandsData } from "@/src/lib/api/brands";
 
 export default function CreateServicePage() {
   const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState<CategoriesData[]>([]);
+  const [brands, setBrands] = useState<BrandsData[]>([]);
 
   const [formData, setFormData] = useState<ServiceData>({
     name_uz: "",
@@ -37,13 +39,15 @@ export default function CreateServicePage() {
     description_en: "",
     categoryId: "",
     image: [],
+    brandId: "",
     file: {
       url: "",
       id: "",
     },
-    link_1: "",
-    link_2: "",
-    link_3: "",
+    // video: "",
+    // link_1: "",
+    // link_2: "",
+    // link_3: "",
     is_visible: false,
   });
 
@@ -63,6 +67,24 @@ export default function CreateServicePage() {
       }
     };
     fetchCategories();
+  }, [toast]);
+
+  useEffect(() => {
+    const fetchBrands = async () => {
+      try {
+        const response = await getBrands("/brands");
+        console.log("Fetched brands:", response); // Debug uchun
+        setBrands(response);
+      } catch (error) {
+        console.error("Error fetching brands:", error); // Debug uchun
+        toast({
+          variant: "destructive",
+          title: "Ошибка",
+          description: "Не удалось загрузить бренды",
+        });
+      }
+    };
+    fetchBrands();
   }, [toast]);
 
   const handleChange = (
@@ -201,36 +223,43 @@ export default function CreateServicePage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="link_1">Ссылка на видео 1</Label>
+                <Label htmlFor="video_1">Ссылка на видео</Label>
+                <Input
+                  id="video"
+                  name="video"
+                  type="text"
+                  value={formData.video}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="link_1">Ссылка Uzum</Label>
                 <Input
                   id="link_1"
                   name="link_1"
                   type="text"
                   value={formData.link_1}
                   onChange={handleChange}
-                  required
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="link_2">Ссылка на видео 2</Label>
+                <Label htmlFor="link_2">Ссылка на Yandex</Label>
                 <Input
                   id="link_2"
                   name="link_2"
                   type="text"
                   value={formData.link_2}
                   onChange={handleChange}
-                  required
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="link_3">Ссылка на видео 3</Label>
+                <Label htmlFor="link_3">Ссылка на Аптека</Label>
                 <Input
                   id="link_3"
                   name="link_3"
                   type="text"
                   value={formData.link_3}
                   onChange={handleChange}
-                  required
                 />
               </div>
             </div>
@@ -255,6 +284,31 @@ export default function CreateServicePage() {
                         className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
                       >
                         {category.name_ru}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="brandId">Бренд</Label>
+                <Select
+                  value={formData.brandId}
+                  onValueChange={(value) => {
+                    console.log("Selected brand:", value); // Debug uchun
+                    setFormData((prev) => ({ ...prev, brandId: value }));
+                  }}
+                >
+                  <SelectTrigger className="flex items-center justify-between w-full h-10 px-3 border rounded-md bg-white text-sm">
+                    <SelectValue placeholder="Выберите бренд" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white border rounded-md shadow-md max-h-60 overflow-y-auto">
+                    {brands.map((brand: any) => (
+                      <SelectItem
+                        key={brand._id}
+                        value={brand._id}
+                        className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                      >
+                        {brand.name}
                       </SelectItem>
                     ))}
                   </SelectContent>

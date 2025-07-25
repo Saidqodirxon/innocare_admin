@@ -27,7 +27,7 @@ export default function EditAboutPage({ params }: { params: { id: string } }) {
     description_uz: "",
     description_ru: "",
     description_en: "",
-    link: "",
+    // link: "",
     image: {} as ImageData,
   });
 

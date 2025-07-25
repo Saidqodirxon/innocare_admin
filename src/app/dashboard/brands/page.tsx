@@ -5,9 +5,9 @@ import { Button } from "@/src/components/ui/button";
 import { Plus, Pencil, Trash2, ExternalLink } from "lucide-react";
 import { useRouter } from "next/navigation";
 import {
-  getCategories,
-  deleteCategories,
-  type CategoriesData,
+  getBrands,
+  deleteBrands,
+  type BrandsData,
 } from "@/src/lib/api/brands";
 import { useToast } from "@/src/hooks/use-toast";
 import {
@@ -30,11 +30,11 @@ import {
 } from "@/src/components/ui/alert-dialog";
 import Image from "next/image";
 
-export default function CategoriesPage() {
-  const [categories, setCategories] = useState<CategoriesData[]>([]);
+export default function BrandsPage() {
+  const [brands, setBrands] = useState<BrandsData[]>([]);
   const [loading, setLoading] = useState(true);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [categoriesToDelete, setcategoriesToDelete] = useState<string | null>(
+  const [brandsToDelete, setBrandsToDelete] = useState<string | null>(
     null
   );
   const router = useRouter();
@@ -42,13 +42,13 @@ export default function CategoriesPage() {
 
   const fetchCategories = async () => {
     try {
-      const data = await getCategories("");
-      setCategories(Array.isArray(data) ? data : []);
+      const data = await getBrands("");
+      setBrands(Array.isArray(data) ? data : []);
     } catch (error: any) {
       toast({
         variant: "destructive",
         title: "Ошибка",
-        description: error.message || "Не удалось получить категорияы",
+        description: error.message || "Не удалось получить бренды",
       });
     } finally {
       setLoading(false);
@@ -60,13 +60,13 @@ export default function CategoriesPage() {
   }, [toast]);
 
   const handleDelete = async () => {
-    if (!categoriesToDelete) return;
+    if (!brandsToDelete) return;
 
     try {
-      await deleteCategories(categoriesToDelete);
+      await deleteBrands(brandsToDelete);
       toast({
         title: "Успешно",
-        description: "Баннер успешно удален",
+        description: "Бренд успешно удален",
       });
       fetchCategories();
     } catch (error: any) {
@@ -77,12 +77,12 @@ export default function CategoriesPage() {
       });
     } finally {
       setDeleteDialogOpen(false);
-      setcategoriesToDelete(null);
+      setBrandsToDelete(null);
     }
   };
 
   const confirmDelete = (id: string) => {
-    setcategoriesToDelete(id);
+    setBrandsToDelete(id);
     setDeleteDialogOpen(true);
   };
 
@@ -99,10 +99,10 @@ export default function CategoriesPage() {
         <div className="flex justify-center py-8">
           <div className="w-8 h-8 border-4 border-gray-300 border-t-primary rounded-full animate-spin"></div>
         </div>
-      ) : !Array.isArray(categories) || categories.length === 0 ? (
+      ) : !Array.isArray(brands) || brands.length === 0 ? (
         <div className="text-center py-8">
           <p className="text-muted-foreground">
-            Баннеры не найдены. Создайте первый категория.
+            Баннеры не найдены. Создайте первый бренд.
           </p>
         </div>
       ) : (
@@ -115,9 +115,9 @@ export default function CategoriesPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {categories.map((categories: any) => (
-              <TableRow key={categories._id}>
-                <TableCell>{categories.name}</TableCell>
+            {brands.map((brand: any) => (
+              <TableRow key={brand._id}>
+                <TableCell>{brand.name}</TableCell>
 
                 <TableCell className="text-right">
                   <Button
@@ -125,7 +125,7 @@ export default function CategoriesPage() {
                     size="icon"
                     onClick={() =>
                       router.push(
-                        `/dashboard/brands/edit/${categories._id}`
+                        `/dashboard/brands/edit/${brand._id}`
                       )
                     }
                   >
@@ -134,7 +134,7 @@ export default function CategoriesPage() {
                   <Button
                     variant="ghost"
                     size="icon"
-                    onClick={() => confirmDelete(categories._id!)}
+                    onClick={() => confirmDelete(brand._id!)}
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>
