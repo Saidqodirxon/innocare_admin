@@ -183,7 +183,6 @@ export default function EditAboutPage({ params }: { params: { id: string } }) {
                   name="link"
                   value={formData.link}
                   onChange={handleChange}
-                  required
                 />
               </div>
               <div className="space-y-2">
