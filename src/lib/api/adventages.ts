@@ -8,12 +8,12 @@ export interface AboutData {
   description_uz: string;
   description_ru: string;
   description_en: string;
-  link?: string;
+  link?: string | null;
   image?: ImageData;
 };
 
 
-export const getAbout = async (id: string): Promise<AboutData[]> => {
+export const getAdventages = async (): Promise<AboutData[]> => {
   try {
     const response = await api.get("/adventages");
     console.log("Get About response:", response.data);
@@ -25,7 +25,7 @@ export const getAbout = async (id: string): Promise<AboutData[]> => {
   }
 };
 
-export const getCategory = async (id: string): Promise<AboutData> => {
+export const getAdventage = async (id: string): Promise<AboutData> => {
   try {
     const response = await api.get(`/adventages/${id}`);
     console.log("Get About response:", response.data);

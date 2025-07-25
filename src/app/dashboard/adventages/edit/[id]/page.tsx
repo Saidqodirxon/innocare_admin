@@ -10,7 +10,7 @@ import { Label } from "@/src/components/ui/label";
 import { Textarea } from "@/src/components/ui/textarea";
 import { Card, CardContent } from "@/src/components/ui/card";
 import { ArrowLeft } from "lucide-react";
-import { type AboutData, getAbout, updateAbout } from "@/src/lib/api/adventages";
+import { type AboutData, getAdventage, updateAbout } from "@/src/lib/api/adventages";
 
 import { useToast } from "@/src/hooks/use-toast";
 import { FileUpload } from "@/src/components/file-upload";
@@ -27,14 +27,14 @@ export default function EditAboutPage({ params }: { params: { id: string } }) {
     description_uz: "",
     description_ru: "",
     description_en: "",
-    // link: "",
+    link: "",
     image: {} as ImageData,
   });
 
   useEffect(() => {
     const fetchAbout = async () => {
       try {
-        const data = await getAbout(params.id);
+        const data = await getAdventage(params.id);
         const category = Array.isArray(data) ? data[0] : data; // Ensure a single object is selected
         setFormData(category);
       } catch (error: any) {
@@ -181,7 +181,7 @@ export default function EditAboutPage({ params }: { params: { id: string } }) {
                 <Textarea
                   id="link"
                   name="link"
-                  value={formData.link}
+                  value={formData.link ?? ""}
                   onChange={handleChange}
                 />
               </div>

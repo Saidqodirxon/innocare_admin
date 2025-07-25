@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/src/components/ui/button";
 import { Plus, Pencil, Trash2, ExternalLink } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { getAbout, deleteAbout, type AboutData } from "@/src/lib/api/adventages";
+import { getAdventages, deleteAbout, type AboutData } from "@/src/lib/api/adventages";
 import { useToast } from "@/src/hooks/use-toast";
 import {
   Table,
@@ -35,7 +35,7 @@ export default function AboutPage() {
 
   const fetchAbout = async () => {
     try {
-      const data = await getAbout("");
+      const data = await getAdventages();
       setAbout(Array.isArray(data) ? data : []);
     } catch (error: any) {
       toast({

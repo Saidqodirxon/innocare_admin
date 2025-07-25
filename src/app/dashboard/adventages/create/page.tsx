@@ -25,7 +25,7 @@ export default function CreateAboutPage() {
     description_uz: "",
     description_ru: "",
     description_en: "",
-    // link: "",
+    link: "",
     image: {} as ImageData,
   });
 
@@ -152,7 +152,7 @@ export default function CreateAboutPage() {
                 <Textarea
                   id="link"
                   name="link"
-                  value={formData.link}
+                  value={formData.link ?? ""}
                   onChange={handleChange}
                 />
               </div>
