@@ -13,6 +13,10 @@ export interface ServiceData {
   description_uz: string;
   description_ru: string;
   description_en: string;
+  about_uz?: string;
+  about_ru?: string;
+  about_en?: string;
+  is_view?: boolean;
   categoryId: string;
   brandId: string;
   image: ImageData[];
@@ -33,6 +37,7 @@ export const getServices = async (
     categoryId?: string;
     q?: string;
     is_visible?: boolean;
+    is_view?: boolean;
   } = {}
 ): Promise<{
   data: ServiceData[];
@@ -48,6 +53,9 @@ export const getServices = async (
     }
     if (filters.is_visible !== undefined) {
       query.append("is_visible", filters.is_visible.toString());
+    }
+    if (filters.is_view !== undefined) {
+      query.append("is_view", filters.is_view.toString());
     }
     if (filters.q) {
       console.log("Query string:", filters.q);

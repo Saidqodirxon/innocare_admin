@@ -21,7 +21,7 @@ import {
   SelectItem,
 } from "@/src/components/ui/select";
 import { getCategories, type CategoriesData } from "@/src/lib/api/categories";
-import { getBrands, BrandsData } from "@/src/lib/api/brands";
+import { getBrands, type BrandsData } from "@/src/lib/api/brands";
 
 export default function CreateServicePage() {
   const router = useRouter();
@@ -37,6 +37,11 @@ export default function CreateServicePage() {
     description_uz: "",
     description_ru: "",
     description_en: "",
+    about_uz: "",
+    about_ru: "",
+    about_en: "",
+    is_visible: false,
+    is_view: false,
     categoryId: "",
     image: [],
     brandId: "",
@@ -44,47 +49,32 @@ export default function CreateServicePage() {
       url: "",
       id: "",
     },
-    // video: "",
-    // link_1: "",
-    // link_2: "",
-    // link_3: "",
-    is_visible: false,
+    video: "",
+    link_1: "",
+    link_2: "",
+    link_3: "",
   });
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await getCategories("/categories");
-        console.log("Fetched categories:", response); // Debug uchun
-        setCategories(response);
-      } catch (error) {
-        console.error("Error fetching categories:", error); // Debug uchun
+    getCategories("/categories")
+      .then(setCategories)
+      .catch(() =>
         toast({
           variant: "destructive",
           title: "Ошибка",
           description: "Не удалось загрузить категории",
-        });
-      }
-    };
-    fetchCategories();
-  }, [toast]);
+        })
+      );
 
-  useEffect(() => {
-    const fetchBrands = async () => {
-      try {
-        const response = await getBrands("/brands");
-        console.log("Fetched brands:", response); // Debug uchun
-        setBrands(response);
-      } catch (error) {
-        console.error("Error fetching brands:", error); // Debug uchun
+    getBrands("/brands")
+      .then(setBrands)
+      .catch(() =>
         toast({
           variant: "destructive",
           title: "Ошибка",
           description: "Не удалось загрузить бренды",
-        });
-      }
-    };
-    fetchBrands();
+        })
+      );
   }, [toast]);
 
   const handleChange = (
@@ -122,7 +112,6 @@ export default function CreateServicePage() {
 
     setLoading(true);
     try {
-      console.log("Submitting formData:", formData); // Debug uchun
       await createService(formData);
       toast({
         title: "Успешно",
@@ -130,7 +119,6 @@ export default function CreateServicePage() {
       });
       router.push("/dashboard/products");
     } catch (error: any) {
-      console.error("Error creating service:", error); // Debug uchun
       toast({
         variant: "destructive",
         title: "Ошибка",
@@ -154,188 +142,124 @@ export default function CreateServicePage() {
       <Card>
         <CardContent className="pt-6">
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Nomi */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="space-y-2">
-                <Label htmlFor="name_uz">Название (UZ)</Label>
-                <Input
-                  id="name_uz"
-                  name="name_uz"
-                  value={formData.name_uz}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="name_ru">Название (RU)</Label>
-                <Input
-                  id="name_ru"
-                  name="name_ru"
-                  value={formData.name_ru}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="name_en">Название (EN)</Label>
-                <Input
-                  id="name_en"
-                  name="name_en"
-                  value={formData.name_en}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+              {["uz", "ru", "en"].map((lang) => (
+                <div className="space-y-2" key={lang}>
+                  <Label htmlFor={`name_${lang}`}>Название ({lang.toUpperCase()})</Label>
+                  <Input
+                    id={`name_${lang}`}
+                    name={`name_${lang}`}
+                    value={(formData as any)[`name_${lang}`]}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+              ))}
             </div>
+
+            {/* Tavsif */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="space-y-2">
-                <Label htmlFor="description_uz">Описание (UZ)</Label>
-                <Textarea
-                  id="description_uz"
-                  name="description_uz"
-                  value={formData.description_uz}
-                  onChange={handleChange}
-                  rows={4}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="description_ru">Описание (RU)</Label>
-                <Textarea
-                  id="description_ru"
-                  name="description_ru"
-                  value={formData.description_ru}
-                  onChange={handleChange}
-                  rows={4}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="description_en">Описание (EN)</Label>
-                <Textarea
-                  id="description_en"
-                  name="description_en"
-                  value={formData.description_en}
-                  onChange={handleChange}
-                  rows={4}
-                  required
-                />
-              </div>
+              {["uz", "ru", "en"].map((lang) => (
+                <div className="space-y-2" key={lang}>
+                  <Label htmlFor={`description_${lang}`}>Описание ({lang.toUpperCase()})</Label>
+                  <Textarea
+                    id={`description_${lang}`}
+                    name={`description_${lang}`}
+                    value={(formData as any)[`description_${lang}`]}
+                    onChange={handleChange}
+                    rows={4}
+                    required
+                  />
+                </div>
+              ))}
             </div>
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="space-y-2">
-                <Label htmlFor="video_1">Ссылка на видео</Label>
-                <Input
-                  id="video"
-                  name="video"
-                  type="text"
-                  value={formData.video}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="link_1">Ссылка Uzum</Label>
-                <Input
-                  id="link_1"
-                  name="link_1"
-                  type="text"
-                  value={formData.link_1}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="link_2">Ссылка на Yandex</Label>
-                <Input
-                  id="link_2"
-                  name="link_2"
-                  type="text"
-                  value={formData.link_2}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="link_3">Ссылка на Аптека</Label>
-                <Input
-                  id="link_3"
-                  name="link_3"
-                  type="text"
-                  value={formData.link_3}
-                  onChange={handleChange}
-                />
-              </div>
+              {["uz", "ru", "en"].map((lang) => (
+                <div className="space-y-2" key={lang}>
+                  <Label htmlFor={`about_${lang}`}>Дополнительная информация ({lang.toUpperCase()})</Label>
+                  <Textarea
+                    id={`about_${lang}`}
+                    name={`about_${lang}`}
+                    value={(formData as any)[`about_${lang}`]}
+                    onChange={handleChange}
+                    rows={4}
+                    required
+                  />
+                </div>
+              ))}
             </div>
+
+            {/* Video va linklar */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <Input name="video" placeholder="Ссылка на видео" value={formData.video} onChange={handleChange} />
+              <Input name="link_1" placeholder="Ссылка Uzum" value={formData.link_1} onChange={handleChange} />
+              <Input name="link_2" placeholder="Ссылка Yandex" value={formData.link_2} onChange={handleChange} />
+              <Input name="link_3" placeholder="Ссылка Аптека" value={formData.link_3} onChange={handleChange} />
+            </div>
+
+            {/* Select: Kategoriya / Brend */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="categoryId">Категория</Label>
+                <Label>Категория</Label>
                 <Select
                   value={formData.categoryId}
-                  onValueChange={(value) => {
-                    console.log("Selected category:", value); // Debug uchun
-                    setFormData((prev) => ({ ...prev, categoryId: value }));
-                  }}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, categoryId: value }))}
                 >
-                  <SelectTrigger className="flex items-center justify-between w-full h-10 px-3 border rounded-md bg-white text-sm">
-                    <SelectValue placeholder="Выберите категорию" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white border rounded-md shadow-md max-h-60 overflow-y-auto">
-                    {categories.map((category: any) => (
-                      <SelectItem
-                        key={category._id}
-                        value={category._id}
-                        className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
-                      >
-                        {category.name_ru}
-                      </SelectItem>
+                  <SelectTrigger><SelectValue placeholder="Выберите категорию" /></SelectTrigger>
+                  <SelectContent>
+                    {categories.map((cat) => (
+                      <SelectItem key={cat._id ?? ""} value={cat._id ?? ""}>{cat.name_ru}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
+
               <div className="space-y-2">
-                <Label htmlFor="brandId">Бренд</Label>
+                <Label>Бренд</Label>
                 <Select
                   value={formData.brandId}
-                  onValueChange={(value) => {
-                    console.log("Selected brand:", value); // Debug uchun
-                    setFormData((prev) => ({ ...prev, brandId: value }));
-                  }}
+                  onValueChange={(value) => setFormData((prev) => ({ ...prev, brandId: value }))}
                 >
-                  <SelectTrigger className="flex items-center justify-between w-full h-10 px-3 border rounded-md bg-white text-sm">
-                    <SelectValue placeholder="Выберите бренд" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white border rounded-md shadow-md max-h-60 overflow-y-auto">
-                    {brands.map((brand: any) => (
-                      <SelectItem
-                        key={brand._id}
-                        value={brand._id}
-                        className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
-                      >
-                        {brand.name}
-                      </SelectItem>
+                  <SelectTrigger><SelectValue placeholder="Выберите бренд" /></SelectTrigger>
+                  <SelectContent>
+                    {brands.map((brand) => (
+                      <SelectItem key={brand._id ?? ""} value={brand._id ?? ""}>{brand.name}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
-              <div className="space-y-2">
-                {/* <Label className="flex items-center space-x-2"> */}
+
+            </div>
+
+            {/* is_visible va is_view */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2 flex items-center gap-2">
                 <Input
                   type="checkbox"
                   checked={formData.is_visible}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      is_visible: e.target.checked,
-                    }))
-                  }
+                  onChange={(e) => setFormData((prev) => ({ ...prev, is_visible: e.target.checked }))}
                 />
-                <span>Отображать услугу на сайте</span>
-                {/* </Label> */}
+                <span>Показать на главной странице</span>
+              </div>
+              <div className="space-y-2 flex items-center gap-2">
+                <Input
+                  type="checkbox"
+                  checked={formData.is_view}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, is_view: e.target.checked }))}
+                />
+                <span>Стиль отображения: {formData.is_view ? "Вид 1" : "Вид 2"}</span>
               </div>
             </div>
+
+            {/* Fayllar */}
             <div className="space-y-2">
               <Label>Файлы услуги</Label>
               <FileUpload
                 multiple={false}
                 accept=".pdf,.doc,.docx"
-                isFile={true}
+                isFile
                 value={formData.file}
                 onChange={(value) => {
                   const file = Array.isArray(value) ? value[0] : value || { url: "", id: "" };
@@ -343,16 +267,18 @@ export default function CreateServicePage() {
                 }}
               />
             </div>
+
             <div className="space-y-2">
               <Label>Изображения услуги</Label>
               <FileUpload
-                multiple={true}
-                value={formData.image}
+                multiple
                 accept=".jpg,.jpeg,.png"
+                value={formData.image}
                 onChange={handleImageChange}
               />
             </div>
 
+            {/* Submit */}
             <div className="flex justify-end">
               <Button type="submit" disabled={loading}>
                 {loading ? "Создание..." : "Создать услугу"}
@@ -361,6 +287,6 @@ export default function CreateServicePage() {
           </form>
         </CardContent>
       </Card>
-    </div >
+    </div>
   );
 }
